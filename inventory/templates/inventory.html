@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en" style='height: 100%; body: 100%;'>
     <head>
         <meta charset="utf-8">
         <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
@@ -7,17 +7,21 @@
         <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css">
         <title>Document</title>
     </head>
-    <body style='height: 100%; body: 100%'>
-        <nav class='navbar navbar-expand-lg navbar-light bg-dark'>
-          <a class="navbar-brand" href="#">Navbar</a>
-  <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
-    <span class="navbar-toggler-icon"></span>
-  </button>
-        </nav>
-        <div class='container h-80'>
-            <div class="col h-100">
+    <body style='height: 100%; body: 100%;'>
+        {% comment %} Navbar {% endcomment %}
+        {% comment %} container - inventory {% endcomment %}
+        {% comment %} footer - form-inline {% endcomment %}
+        {% comment %} <nav class='fixed-top navbar navbar-expand-lg navbar-light bg-light'>
+          <a class="navbar-brand" href="#">Home</a>
+            <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+        </nav> {% endcomment %}
 
-                <div class='row'>
+        <div class='container h-80'>
+            <div class="row h-100">
+
+                <div class='col'>
                     <table class="table table-hover">
                         <thead class='fixed'>
                             <tr>
@@ -45,9 +49,6 @@
                                         <button type="submit" class="btn btn-success" name='sellItem' value={{ item.item.item_id }}>Sell Item</button>
                                         <button type="submit" class="btn btn-warning" name='editItem' value={{ item.item.item_id }}>Edit</button>
                                         <button type="submit" class="btn btn-danger" name='deleteItem' value={{ item.item.item_id }}>Delete</button>
-                                        {% comment %} <button type="button" class="close" name='deleteButton' value={{ item.item.item_id }} aria-label="Close">
-                                            <span aria-hidden="true">&times;</span>
-                                        </button> {% endcomment %}
                                     </form>
                                 </td>
                             </tr>
@@ -59,22 +60,27 @@
             </div>
         </div>
 
-        <footer class='fixed-bottom bg-secondary'>
-
-                <div class='row justify-content-center'>
-                    <form class="form-inline" method="post">
+        {% comment %} Footer - Add Items Component {% endcomment %}
+        <footer class="footer fixed-bottom bg-light" style='height: 15vh;'>
+        
+            <div class='row h-100 align-items-center'>
+                <div class="col">
+                    <form class="form-inline justify-content-center" method="post">
                         {% csrf_token %}
                         {% for field in form %}
-                            <div class="col">
-                                {{ field.errors }}
-                                {% comment %} <label>{{ field.label }}</label> {% endcomment %}
-                                {{ field }}
+                            <div class='form-group'>
+                                <div class='col'>
+                                    {{ field.errors }}
+                                    <div>{{ field.label }}</div>
+                                    <div>{{ field }}</div>
+                                </div>
                             </div>
                         {% endfor %}
-                        <button type="submit" class="btn-primary" name="addItem">Add Item</button>
+                        <button type="submit" class="btn-primary btn" name="addItem">Add Item</button>
                     </form>
                 </div>
-        
+            </div>
+
         </footer>
 
             

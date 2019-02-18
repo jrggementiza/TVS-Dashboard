@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en" style='height: 100%; body: 100%;'>
     <head>
         <meta charset="utf-8">
         <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
@@ -7,24 +7,26 @@
         <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css">
         <title>Document</title>
     </head>
-    <body>
-        <div class="container">
-            <div class="col-md">
-            <div class="row align-items-center justify-content-center">
-            
-                <form class="form" method="post">
-                    {% csrf_token %}
-                    {% for field in form %}
-                    <div class="form-group">
-                        {{ field.errors }}
-                        <label>{{ field.label }}</label>
-                        {{ field }}
-                    </div>
-                    {% endfor %}
-                    <button type="submit" class="btn-lg btn-primary" name="test value">Add Item</button>
-                </form>
+
+    
+    <body style='height: 100%; body: 100%;'>
+        <div class="container h-100">
+            <div class="row h-100 justify-content-center align-items-center">
+
+                <div class="col">
+                    <form class="form" method="post">
+                        {% csrf_token %}
+                        {% for field in form %}
+                        <div class="form-group">
+                            {{ field.errors }}
+                            <label>{{ field.label }}</label>
+                            {{ field }}
+                        </div>
+                        {% endfor %}
+                        <button type="submit" class="btn-lg btn-primary" name="test value">Add Item</button>
+                    </form>
                 
-            </div>
+                </div>
             </div>
         </div>
         
