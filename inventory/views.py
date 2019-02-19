@@ -7,36 +7,40 @@ from .forms import AddItemForm
 
 def inventory(request):
     form = AddItemForm()
+    prompt = None
     if request.method == 'POST':
         if 'sellItem' in request.POST:
             selected_item = request.POST.get('sellItem', None)
+            if selected_item == None:
+                prompt = 'item not found'
             item_query = Inventory.objects.get(item=selected_item)
             print(item_query)
+
         elif 'editItem' in request.POST:
             selected_item = request.POST.get('editItem', None)
+            if selected_item == None:
+                prompt = 'item not found'
+            
         elif 'deleteItem' in request.POST:
             selected_item = request.POST.get('deleteItem', None)
+            if selected_item == None:
+                prompt = 'item not found'
             item_query = Inventory.objects.get(item=selected_item)
             item_query.delete()
+
         elif 'addItem' in request.POST:
             form = AddItemForm(request.POST)
-            # count = request.POST.get('item_quantity', 1)
-            # print(count)
-            if form.is_valid(): # and count == 1:
+            if form.is_valid():
                 item = form.save(commit=False)
                 item.save()
                 new_inventory_item = Inventory(item=item)
                 new_inventory_item.save()
 
-            # TODO: bulk create
-            # item_list = []
-            # # create and collect item instances from model form
-            # Inventory.objects.bulk_create(item_list)
-                
-    items = Inventory.objects.all()
+    inventory = Inventory.objects.all()
     context = {
-            'items': items,
+            'inventory': inventory,
             'form': form,
+            'prompt': prompt,
     }
     return render(request, 'inventory.html', context)
 
