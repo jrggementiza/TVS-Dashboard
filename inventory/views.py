@@ -20,11 +20,19 @@ def inventory(request):
             item_query.delete()
         elif 'addItem' in request.POST:
             form = AddItemForm(request.POST)
-            if form.is_valid():
+            # count = request.POST.get('item_quantity', 1)
+            # print(count)
+            if form.is_valid(): # and count == 1:
                 item = form.save(commit=False)
                 item.save()
                 new_inventory_item = Inventory(item=item)
                 new_inventory_item.save()
+
+            # TODO: bulk create
+            # item_list = []
+            # # create and collect item instances from model form
+            # Inventory.objects.bulk_create(item_list)
+                
     items = Inventory.objects.all()
     context = {
             'items': items,
