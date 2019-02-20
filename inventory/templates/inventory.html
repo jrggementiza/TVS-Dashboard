@@ -1,119 +1,72 @@
-<!DOCTYPE html>
-<html lang="en" style='height: 100%; body: 100%;'>
-    <head>
-        <meta charset="utf-8">
-        <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
-        <!-- Bootstrap CSS -->
-        <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css">
-        <title>Document</title>
-    </head>
-    <body>
+{% extends "base.html" %}
 
-        <div class='container h-100'>
-            <div class="row h-100">
+{% block content %}
 
-                {% if prompt != None %}
-                <div class="alert alert-warning alert-dismissible fade show" role="alert">
-                    <strong>{{ prompt }}</strong>
-                    <button type="button" class="close" data-dismiss="alert" aria-label="Close">
-                        <span aria-hidden="true">&times;</span>
-                    </button>
-                </div>
-                {% endif %}
+<div class='container h-100'>
+    <div class="row h-100">
+        <div class='col text-center'>
+            <table class="table table-hover">
+                <thead class='fixed'>
+                    <tr>
+                        <th scope="col">Item No</th>
+                        <th scope="col">Item Acquired Date</th>
+                        <th scope="col">Item Name</th>
+                        <th scope="col">Item From</th>
+                        <th scope="col">Item Get Price</th>
+                        <th scope="col">Item Sell Price</th>
+                        <th scope="col">Actions</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for item in inventory %}
+                    <tr>
+                        <th scope="col">{{ item.item_id }}</th>
+                        <td>{{ item.item_get_date }}</td>
+                        <td>{{ item.item.item_name }}</td>
+                        <td>{{ item.item.item_from }}</td>
+                        <td>{{ item.item.item_get_price }}</td>
+                        <td>{{ item.item.item_sell_price }}</td>
+                    
+                        <td>
+                            <form method="post">
+                                {% csrf_token %}
+                                <button type="submit" class="btn btn-success" name='sellItem' value={{ item.item.item_id }}>Sell Item</button>
+                                <button type="button" class="btn btn-warning" name='editItem' value={{ item.item.item_id }} data-toggle='modal' data-target='#editItem'>Edit</button>
 
-                <div class='col text-center'>
-                    <table class="table table-hover">
-                        <thead class='fixed'>
-                            <tr>
-                                <th scope="col">Item No</th>
-                                <th scope="col">Item Acquired Date</th>
-                                <th scope="col">Item Name</th>
-                                <th scope="col">Item From</th>
-                                <th scope="col">Item Get Price</th>
-                                <th scope="col">Item Sell Price</th>
-                                <th scope="col">Actions</th>
-                            </tr>
-                        </thead>
-                        <tbody>
-                            {% for item in inventory %}
-                            <tr>
-                                <th scope="col">{{ item.item_id }}</th>
-                                <td>{{ item.item_get_date }}</td>
-                                <td>{{ item.item.item_name }}</td>
-                                <td>{{ item.item.item_from }}</td>
-                                <td>{{ item.item.item_get_price }}</td>
-                                <td>{{ item.item.item_sell_price }}</td>
-                                <td>
-                                    <form method="post">
-                                        {% csrf_token %}
-                                        <button type="submit" class="btn btn-success" name='sellItem' value={{ item.item.item_id }}>Sell Item</button>
-                                       
+                                <button type="button" class="btn btn-danger" name='deleteItem' value={{ item.item.item_id }} data-toggle="modal" data-target="#confirmDelete">Delete</button>
 
-                                        <button type="button" class="btn btn-warning" name='editItem' value={{ item.item.item_id }} data-toggle='modal' data-target='#editItem'>Edit</button>
-
-
-                                        <button type="button" class="btn btn-danger" name='deleteItem' value={{ item.item.item_id }} data-toggle="modal" data-target="#confirmDelete">Delete</button>
-
-                                        <div class="modal fade" id="confirmDelete" tabindex="-1" role="dialog" aria-labelledby="exampleModalLongTitle" aria-hidden="true">
-                                            <div class="modal-dialog" role="document">
-                                                <div class="modal-content">
-                                                    <div class="modal-header">
-                                                        <h5 class="modal-title" id="exampleModalLongTitle">Delete Item</h5>
-                                                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                                                        <span aria-hidden="true">&times;</span>
-                                                        </button>
-                                                    </div>
-                                                    <div class="modal-body">
-                                                        <h2>Are you sure you want to delete {{ item.item.item_name }} from the Inventory?</h2>
-                                                    </div>
-                                                    <div class="modal-footer">
-                                                        <button type="button" class="btn btn-secondary" data-dismiss="modal">Cancel</button>
-                                                        <form method='post'>
-                                                            {% csrf_token %}
-                                                            <button type="submit" class="btn btn-danger" name='deleteItem' value={{ item.item.item_id }}>Delete Item</button>
-                                                        </form>
-                                                    </div>
-                                                </div>
+                                <div class="modal fade" id="confirmDelete" tabindex="-1" role="dialog" aria-labelledby="exampleModalLongTitle" aria-hidden="true">
+                                    <div class="modal-dialog" role="document">
+                                        <div class="modal-content">
+                                            <div class="modal-header">
+                                                <h5 class="modal-title" id="exampleModalLongTitle">Delete Item</h5>
+                                                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                                <span aria-hidden="true">&times;</span>
+                                                </button>
+                                            </div>
+                                            <div class="modal-body">
+                                                <h2>Are you sure you want to delete {{ item.item.item_name }} from the Inventory?</h2>
+                                            </div>
+                                            <div class="modal-footer">
+                                                <button type="button" class="btn btn-secondary" data-dismiss="modal">Cancel</button>
+                                                <form method='post'>
+                                                    {% csrf_token %}
+                                                    <button type="submit" class="btn btn-danger" name='deleteItem' value={{ item.item.item_id }}>Delete Item</button>
+                                                </form>
                                             </div>
                                         </div>
+                                    </div>
+                                </div>
+                            </form>
+                        </td>
+                    </tr>
 
-                                    </form>
-                                </td>
-                            </tr>
-
-                            {% endfor %}
-                        </tbody>
-                    </table>
-                </div>
-
-            </div>
+                    {% endfor %}
+                </tbody>
+            </table>
         </div>
 
-        <footer class="footer fixed-bottom bg-light" style='height: 15vh;'>
-        
-            <div class='row h-100 align-items-center'>
-                <div class="col">
-                    <form class="form-inline justify-content-center" method="post">
-                        {% csrf_token %}
-                        {% for field in form %}
-                            <div class='form-group'>
-                                <div class='col'>
-                                    {{ field.errors }}
-                                    <div>{{ field.label }}</div>
-                                    <div>{{ field }}</div>
-                                </div>
-                            </div>
-                        {% endfor %}
-                        <button type="submit" class="btn-primary btn" name="addItem">Add Item</button>
-                    </form>
-                </div>
-            </div>
+    </div>
+</div>
 
-        </footer>
-
-            
-        <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js"></script>
-        <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js"></script>
-        <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js"></script>
-    </body>
-</html>
+{% endblock content %}
