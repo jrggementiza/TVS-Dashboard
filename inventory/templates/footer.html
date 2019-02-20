@@ -1,0 +1,19 @@
+<footer class="footer fixed-bottom bg-light" style='height: 15vh;'>
+    <div class='row h-100 align-items-center'>
+        <div class="col">
+            <form class="form-inline justify-content-center" method="post">
+                {% csrf_token %}
+                {% for field in form %}
+                    <div class='form-group'>
+                        <div class='col'>
+                            {{ field.errors }}
+                            <div>{{ field.label }}</div>
+                            <div>{{ field }}</div>
+                        </div>
+                    </div>
+                {% endfor %}
+                <button type="submit" class="btn-primary btn" name="addItem">Add Item</button>
+            </form>
+        </div>
+    </div>
+</footer>
