@@ -1,0 +1,39 @@
+{% comment %} TODO: Key Business Information Dashboard {% endcomment %}
+
+{% extends "base.html" %}
+
+{% block content %}
+    <div class='container h-100'>
+        <div class="row h-100">
+            <div class='col text-center'>
+                <table class="table table-hover">
+                    <thead class='fixed'>
+                        <tr>
+                            <th scope="col">Item No</th>
+                            <th scope="col">Item Acquired Date</th>
+                            <th scope="col">Item Name</th>
+                            <th scope="col">Item From</th>
+                            <th scope="col">Item Get Price</th>
+                            <th scope="col">Item Sell Price</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {% for sold_item in sold_items %}
+                        <tr>
+                            <th scope="col">{{ sold_item.item.item_id }}</th>
+                            <td>{{ sold_item.item_sell_date }}</td>
+                            <td>{{ sold_item.item.item_name }}</td>
+                            <td>{{ sold_item.item.item_from }}</td>
+                            <td>{{ sold_item.item.item_get_price }}</td>
+                            <td>{{ sold_item.item.item_sell_price }}</td>
+                        </tr>
+
+                        {% endfor %}
+                    </tbody>
+                </table>
+            </div>
+
+        </div>
+    </div>
+
+{% endblock content %}
