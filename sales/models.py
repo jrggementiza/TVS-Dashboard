@@ -34,3 +34,5 @@ class Sales(models.Model):
         max_length=3,
         choices=PAYMENT_METHOD_OPTIONS,
     )
+
+    sold_on = models.DateField(auto_now=True)

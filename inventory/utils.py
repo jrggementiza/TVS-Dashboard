@@ -26,8 +26,6 @@ def delete_item_from_inventory(selected_item):
         return 'Selected Item not Found!'
 
 
-
-
 def new_customer(parameter_list):
     pass
 
@@ -47,6 +45,7 @@ def sell_item(selected_item, sell_item_form, new_customer_form):
 
             # Existing Customer v New Customer
             # TODO: Rename new_customer -> customer
+            # TODO: Refactor utils into respective app.utils
             customer = new_customer_form.save(commit=False)
             try:
                 existing_customer = Customer.objects.get(first_name=customer.first_name, last_name=customer.last_name)
@@ -67,6 +66,12 @@ def sell_item(selected_item, sell_item_form, new_customer_form):
 
 
 def edit_item(selected_item, form):
+    # selected_item id
+    # get item using selected_item id
+    # load form and validate form
+    # slected_item.first name = form values
+    # sleted_item.save()
+
     # if form.is_valid():
     #     item_updates = form.save(commit=False)
         # Item.objects.get(item=selected_item).update(item=item_updates)
