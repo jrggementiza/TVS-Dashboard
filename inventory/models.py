@@ -1,5 +1,7 @@
 from django.db import models
 
+from customer.models import Customer
+
 
 class Supplier(models.Model):
     name = models.CharField(max_length=30)
@@ -49,7 +51,8 @@ class Item(models.Model):
     # view add item default is 1.
     # view sell item default is 1. if greater than 1, sku - 1. if sku == 1, sku delete
     
-    
+    customer = models.ForeignKey(Customer, on_delete=models.CASCADE, null=True)
+
     def __str__(self):
         return self.name
 

@@ -1,6 +1,8 @@
 from django import forms
 from django.forms import ModelForm
-from sales.models import Sales, Customer
+
+from sales.models import Sales
+from customer.models import Customer
 
 
 class SellItemForm(ModelForm):

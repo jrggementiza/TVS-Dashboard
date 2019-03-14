@@ -10,9 +10,7 @@
                     <thead class='fixed'>
                         <tr>
                             <th scope="col">Item No</th>
-                            <th scope="col">Item Acquired Date</th>
                             <th scope="col">Item Name</th>
-                            <th scope="col">Item From</th>
                             <th scope="col">Item Get Price</th>
                             <th scope="col">Item Sell Price</th>
                             <th scope="col">Customer First Name</th>
@@ -25,20 +23,12 @@
                         {% for items in sold_items %}
                         <tr>
                             <td>{{ items.item.id }}</td>
-                            <td>{{ items.item.procurement_date }}</td>
                             <td>{{ items.item.name }}</td>
                             <td>{{ items.item.supplier }}</td>
                             <td>{{ items.item.procurement_method }}</td>
-                            <td>{{ items.item.cost }}</td>
                             <td>{{ items.item.retail_price }}</td>
-                        </tr>
-                        {% endfor %}
-
-                        {% for customer in customers %}
-                        <tr>
-                            <td>{{ customer.first_name }}</td>
-                            <td>{{ customer.last_name }}</td>
-                            <td>{{ customer.customer_type }}</td>
+                            <td>{{ items.item.customer.first_name }}</td>
+                            <td>{{ items.item.customer.last_name }}</td>
                         </tr>
                         {% endfor %}
 

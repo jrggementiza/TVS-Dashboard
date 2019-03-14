@@ -1,6 +1,7 @@
 from django.shortcuts import render
 
-from sales.models import Sales, Customer
+from sales.models import Sales
+from customer.models import Customer
 
 
 def sales(request):

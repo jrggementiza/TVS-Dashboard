@@ -5,8 +5,10 @@ from inventory.models import Item, Inventory
 from inventory.forms import AddItemForm
 from inventory.utils import display_newest_items, add_item, delete_item_from_inventory, sell_item, edit_item
 
-from sales.models import Sales, Customer
+from sales.models import Sales
 from sales.forms import SellItemForm, NewCustomerForm
+
+from customer.models import Customer
 
 
 def inventory(request):
