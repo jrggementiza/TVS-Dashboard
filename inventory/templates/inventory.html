@@ -8,30 +8,33 @@
                     <thead class='fixed'>
                         <tr>
                             <th scope="col">Item No</th>
-                            <th scope="col">Item Acquired Date</th>
-                            <th scope="col">Item Name</th>
-                            <th scope="col">Item From</th>
-                            <th scope="col">Item Get Price</th>
-                            <th scope="col">Item Sell Price</th>
+                            <th scope="col">Procurement Date</th>
+                            <th scope="col">Name</th>
+                            <th scope="col">Supplier</th>
+                            <th scope="col">Procurement Method</th>
+                            <th scope="col">Cost</th>
+                            <th scope="col">Retail Price</th>
                             <th scope="col">Actions</th>
                         </tr>
                     </thead>
                     <tbody>
-                        {% for item in inventory %}
+                        {% for items in inventory %}
                         <tr>
-                            <th scope="col">{{ item.item_id }}</th>
-                            <td>{{ item.item_get_date }}</td>
-                            <td>{{ item.item.item_name }}</td>
-                            <td>{{ item.item.item_from }}</td>
-                            <td>{{ item.item.item_get_price }}</td>
-                            <td>{{ item.item.item_sell_price }}</td>
-                        
+                            <td>{{ items.item.id }}</td>
+                            <td>{{ items.item.procurement_date }}</td>
+                            <td>{{ items.item.name }}</td>
+                            <td>{{ items.item.supplier }}</td>
+                            <td>{{ items.item.procurement_method }}</td>
+                            <td>{{ items.item.cost }}</td>
+                            <td>{{ items.item.retail_price }}</td>
                             <td>
                                 <form method="post">
                                     {% csrf_token %}
-                                    <button type="submit" class="btn btn-success" name='sellItem' value={{ item.item.item_id }}>Sell Item</button>
-                                    <button type="button" class="btn btn-warning" name='editItem' value={{ item.item.item_id }} data-toggle='modal' data-target='#editItem'>Edit</button>
-                                    {% include 'inventory-add-button.html' with item=item %}
+                                    {% comment %} <button type="submit" class="btn btn-success" name='sellItem' value={{ items.item.id }}>Sell Item</button> {% endcomment %}
+                                    {% comment %} <button type="button" class="btn btn-warning" name='editItem' value={{ item.id }} data-toggle='modal' data-target='#editItem'>Edit</button> {% endcomment %}
+                                    {% include 'inventory-sell.html' with items=items %}
+                                    {% include 'inventory-edit.html' with items=items %}
+                                    {% include 'inventory-delete.html' with items=items %}
                                 </form>
                             </td>
                         </tr>

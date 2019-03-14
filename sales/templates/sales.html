@@ -15,20 +15,33 @@
                             <th scope="col">Item From</th>
                             <th scope="col">Item Get Price</th>
                             <th scope="col">Item Sell Price</th>
+                            <th scope="col">Customer First Name</th>
+                            <th scope="col">Customer Last Name</th>
+                            <th scope="col">Customer Type</th>
                         </tr>
                     </thead>
-                    <tbody>
-                        {% for sold_item in sold_items %}
-                        <tr>
-                            <th scope="col">{{ sold_item.item.item_id }}</th>
-                            <td>{{ sold_item.item_sell_date }}</td>
-                            <td>{{ sold_item.item.item_name }}</td>
-                            <td>{{ sold_item.item.item_from }}</td>
-                            <td>{{ sold_item.item.item_get_price }}</td>
-                            <td>{{ sold_item.item.item_sell_price }}</td>
-                        </tr>
 
+                    <tbody>
+                        {% for items in sold_items %}
+                        <tr>
+                            <td>{{ items.item.id }}</td>
+                            <td>{{ items.item.procurement_date }}</td>
+                            <td>{{ items.item.name }}</td>
+                            <td>{{ items.item.supplier }}</td>
+                            <td>{{ items.item.procurement_method }}</td>
+                            <td>{{ items.item.cost }}</td>
+                            <td>{{ items.item.retail_price }}</td>
+                        </tr>
                         {% endfor %}
+
+                        {% for customer in customers %}
+                        <tr>
+                            <td>{{ customer.first_name }}</td>
+                            <td>{{ customer.last_name }}</td>
+                            <td>{{ customer.customer_type }}</td>
+                        </tr>
+                        {% endfor %}
+
                     </tbody>
                 </table>
             </div>

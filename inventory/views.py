@@ -1,80 +1,53 @@
 from django.http import HttpResponse
 from django.shortcuts import render, redirect
 
-from .models import Item, Inventory
-from .forms import AddItemForm
+from inventory.models import Item, Inventory
+from inventory.forms import AddItemForm
+from inventory.utils import display_newest_items, add_item, delete_item_from_inventory, sell_item, edit_item
 
-from sales.models import Sales
+from sales.models import Sales, Customer
+from sales.forms import SellItemForm, NewCustomerForm
 
 
 def inventory(request):
     form = AddItemForm()
+    sell_item_form, new_customer_form = SellItemForm(), NewCustomerForm()
     prompt = None
     if request.method == 'POST':
-        if 'sellItem' in request.POST:
-            selected_item = request.POST.get('sellItem', None)
-            print(type(selected_item))
-            print(selected_item)
+        if 'addItem' in request.POST:
+            form = AddItemForm(request.POST)
+            prompt = add_item(form)
 
-            if selected_item == None:
-                prompt = 'item not found'
-
-            # Deletes Item on Inventory table
-            item_query = Inventory.objects.get(item=selected_item)
-            item_query.delete()
-
-            # Gets Object Instance of Item to Sell
-            item_to_sell = Item.objects.get(item_id=selected_item)
-            print(item_to_sell)
-
-            # TODO: Fix double entry bug
-            # TODO: Add customer table and moda;
-            new_sales_item = Sales(item=item_to_sell)
-            new_sales_item.save()
-
-        elif 'editItem' in request.POST:
-            selected_item = request.POST.get('editItem', None)
-            if selected_item == None:
-                prompt = 'item not found'
-            
         elif 'deleteItem' in request.POST:
             selected_item = request.POST.get('deleteItem', None)
-            if selected_item == None:
-                prompt = 'item not found'
-            item_query = Inventory.objects.get(item=selected_item)
-            item_query.delete()
+            prompt = delete_item_from_inventory(selected_item)
 
-        elif 'addItem' in request.POST:
-            form = AddItemForm(request.POST)
-            if form.is_valid():
-                item = form.save(commit=False)
-                item.save()
-                new_inventory_item = Inventory(item=item)
-                new_inventory_item.save()
+        elif 'sellItem' in request.POST:
+            selected_item = request.POST.get('sellItem', None)
+            sell_item_form = SellItemForm(request.POST)
+            new_customer_form = NewCustomerForm(request.POST)
+            
+            prompt = sell_item(selected_item, sell_item_form, 
+                                new_customer_form)
 
-    inventory = Inventory.objects.all()
+        # TODO: Fix double entry bug
+        # TODO: Add customer table and modal
+        # TODO: Add Form
+        # elif 'editItem' in request.POST:
+        #     selected_item = request.POST.get('editItem', None)
+        #     prompt = edit_item(selected_item, form)
+
+    #         if selected_item == None:
+    #             prompt = 'item not found'
+            
+    
+    inventory = display_newest_items()
+
     context = {
             'inventory': inventory,
             'form': form,
+            'sell_item_form': sell_item_form,
+            'new_customer_form': new_customer_form,
             'prompt': prompt,
     }
     return render(request, 'inventory.html', context)
-
-
-def add(request):
-    if request.method == 'POST':
-        form = AddItemForm(request.POST)
-        if form.is_valid():
-            item = form.save(commit=False)
-            item.save()
-            new_inventory_item = Inventory(item=item)
-            new_inventory_item.save()
-            if form is not None:
-                redirect_url = '/inventory'
-                return redirect(redirect_url)
-    else:
-        form = AddItemForm()
-    context = {
-            'form': form,
-    }
-    return render(request, 'add.html', context)
