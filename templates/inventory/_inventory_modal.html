@@ -1,0 +1,64 @@
+{% comment %}
+WHAT GETS REUSED:
+1. Button
+button class
+button namebutton value
+button data-target
+
+2. Modal
+modal id
+modal header
+- h5 modalTitle
+modal body
+- block content
+- modal body button
+- modal body form
+{% endcomment %}
+
+
+<button type="button" class="btn btn-success" name='editItem' value={{ items.item.id }} data-toggle="modal" data-target="#confirmSell">Sell</button>
+
+<div class="modal fade" id="confirmSell" tabindex="-1" role="dialog" aria-labelledby="modalTitle" aria-hidden="true">
+    <div class="modal-dialog" role="document">
+
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="modalTitle">Sell Item</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+
+            <div class="modal-body">
+                <div class="form justify-content-center">
+                    {% for field in new_customer_form %}
+                        <div class='form-group'>
+                            <div class='col'>
+                                {{ field.errors }}
+                                <div>{{ field.label }}</div>
+                                <div>{{ field }}</div>
+                            </div>
+                        </div>
+                    {% endfor %}
+
+                    {% csrf_token %}
+                    {% for field in sell_item_form %}
+                        <div class='form-group'>
+                            <div class='col'>
+                                {{ field.errors }}
+                                <div>{{ field.label }}</div>
+                                <div>{{ field }}</div>
+                            </div>
+                        </div>
+                    {% endfor %}
+
+                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Cancel</button>
+                    <form method='post'>
+                        <button type="submit" class="btn btn-success" name='sellItem' value={{ items.item.id }}>Confirm</button>
+                    </form>
+                </div>
+            </div>
+        </div>
+
+    </div>
+</div>

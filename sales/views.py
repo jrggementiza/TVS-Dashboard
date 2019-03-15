@@ -11,4 +11,4 @@ def sales(request):
         'sold_items': sold_items,
         'customers': customers,
     }
-    return render(request, 'sales.html', context)
+    return render(request, 'sales/sales.html', context)

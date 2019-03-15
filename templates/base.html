@@ -3,13 +3,16 @@
     <head>
         <meta charset="utf-8">
         <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
-        <!-- Bootstrap CSS -->
+        
         <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css">
-        <title>Document</title>
+        <title>{% block title %}TVS Dashboard{% endblock title%}</title>
     </head>
     <body>
         {% include 'navbar.html' %}
-        {% block content %}{% endblock content %}
+
+        <div class='container h-100'>
+            {% block content %}{% endblock content %}
+        </div>
 
         <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js"></script>
         <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js"></script>

@@ -1,0 +1,46 @@
+{% extends "base.html" %}
+
+{% block content %}
+    <div class="row h-100">
+        <div class='col text-center'>
+            <table class="table table-hover">
+                <thead class='fixed'>
+                    <tr>
+                        <th scope="col">Item No</th>
+                        <th scope="col">Procurement Date</th>
+                        <th scope="col">Name</th>
+                        <th scope="col">Supplier</th>
+                        <th scope="col">Procurement Method</th>
+                        <th scope="col">Cost</th>
+                        <th scope="col">Retail Price</th>
+                        <th scope="col">Actions</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for items in inventory %}
+                    <tr>
+                        <td>{{ items.item.id }}</td>
+                        <td>{{ items.item.procurement_date }}</td>
+                        <td>{{ items.item.name }}</td>
+                        <td>{{ items.item.supplier }}</td>
+                        <td>{{ items.item.procurement_method }}</td>
+                        <td>{{ items.item.cost }}</td>
+                        <td>{{ items.item.retail_price }}</td>
+                        <td>
+                            <form method="post">
+                                {% csrf_token %}
+                                {% include 'inventory/_inventory_sell.html' with items=items %}
+                                {% include 'inventory/_inventory_edit.html' with items=items %}
+                                {% include 'inventory/_inventory_delete.html' with items=items %}
+                            </form>
+                        </td>
+                    </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+        </div>
+    </div>
+
+{% include 'inventory/_footer_add_item.html' %}
+
+{% endblock content %}

@@ -52,4 +52,4 @@ def inventory(request):
             'new_customer_form': new_customer_form,
             'prompt': prompt,
     }
-    return render(request, 'inventory.html', context)
+    return render(request, 'inventory/inventory.html', context)
