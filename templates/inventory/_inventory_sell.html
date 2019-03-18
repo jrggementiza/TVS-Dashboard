@@ -1,4 +1,6 @@
-<button type="button" class="btn btn-success" name='editItem' value={{ items.item.id }} data-toggle="modal" data-target="#confirmSell">Sell</button>
+<div class='col'>
+    <button type="button" class="btn btn-block btn-success" name='editItem' value={{ items.item.id }} data-toggle="modal" data-target="#confirmSell">Sell</button>
+</div>
 
 <div class="modal fade" id="confirmSell" tabindex="-1" role="dialog" aria-labelledby="modalTitle" aria-hidden="true">
     <div class="modal-dialog" role="document">
@@ -12,33 +14,43 @@
             </div>
 
             <div class="modal-body">
-                <div class="form justify-content-center">
-                    {% for field in new_customer_form %}
-                        <div class='form-group'>
-                            <div class='col'>
-                                {{ field.errors }}
-                                <div>{{ field.label }}</div>
-                                <div>{{ field }}</div>
-                            </div>
-                        </div>
-                    {% endfor %}
-
+                <div class="form">
                     {% csrf_token %}
-                    {% for field in sell_item_form %}
+                    {% for field in new_customer_form %}
+                    <div class='row'>
+                        <div class='col'>
+                            {{ field.errors }}
+                            {{ field.label }}
+                            {{ field }}
+                        </div>
+                    </div>
+                    {% endfor %}
+                <hr>
+                    <div class='form-row'>
+                        {% for field in sell_item_form %}
                         <div class='form-group'>
-                            <div class='col'>
+                            <div class='form-check'>
                                 {{ field.errors }}
-                                <div>{{ field.label }}</div>
-                                <div>{{ field }}</div>
+                                {{ field.label }}
+                                {{ field }}
                             </div>
                         </div>
-                    {% endfor %}
+                        {% endfor %}
+                    </div>
+                <hr>
+                    <div class='form-row'>
+                        <div class='col'>
+                            <button type="button" class="btn btn-block btn-secondary" data-dismiss="modal">Cancel</button>
+                        </div>
+                        <div class='col'>
+                        <form method='post'>
+                            <button type="submit" class="btn btn-block btn-success" name='sellItem' value={{ items.item.id }}>Confirm</button>
+                        </form>
+                        </div>
+                    </div>
 
-                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Cancel</button>
-                    <form method='post'>
-                        <button type="submit" class="btn btn-success" name='sellItem' value={{ items.item.id }}>Confirm</button>
-                    </form>
                 </div>
+
             </div>
         </div>
 

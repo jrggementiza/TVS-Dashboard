@@ -1,4 +1,6 @@
-<button type="button" class="btn btn-warning" name='editItem' value={{ items.item.id }} data-toggle="modal" data-target="#confirmEdit">Edit</button>
+<div class='col'>
+    <button type="button" class="btn btn-block btn-warning" name='editItem' value={{ items.item.id }} data-toggle="modal" data-target="#confirmEdit">Edit</button>
+</div>
 
 <div class="modal fade" id="confirmEdit" tabindex="-1" role="dialog" aria-labelledby="modalTitle" aria-hidden="true">
     <div class="modal-dialog" role="document">
@@ -10,16 +12,15 @@
                 </button>
             </div>
             <div class="modal-body">
-                <h2>Are you sure you want to delete {{ items.item.name }} from the Inventory?</h2>
-                    {% for field in form %}
-                    <div class='form-group'>
-                        <div class='col'>
-                            {{ field.errors }}
-                            <div>{{ field.label }}</div>
-                            <div>{{ field }}</div>
-                        </div>
+                {% for field in form %}
+                <div class='form-group'>
+                    <div class='col'>
+                        {{ field.errors }}
+                        <div>{{ field.label }}</div>
+                        <div>{{ field }}</div>
                     </div>
-                    {% endfor %}
+                </div>
+                {% endfor %}
             </div>
             <div class="modal-footer">
                 <button type="button" class="btn btn-secondary" data-dismiss="modal">Cancel</button>

@@ -2,7 +2,7 @@
 
 {% block content %}
     <div class="row h-100">
-        <div class='col text-center'>
+        <div class='col'>
             <table class="table table-hover">
                 <thead class='fixed'>
                     <tr>
@@ -29,9 +29,11 @@
                         <td>
                             <form method="post">
                                 {% csrf_token %}
-                                {% include 'inventory/_inventory_sell.html' with items=items %}
-                                {% include 'inventory/_inventory_edit.html' with items=items %}
-                                {% include 'inventory/_inventory_delete.html' with items=items %}
+                                <div class='form-row'>
+                                    {% include 'inventory/_inventory_sell.html' with items=items %}
+                                    {% comment %} {% include 'inventory/_inventory_edit.html' with items=items %} {% endcomment %}
+                                    {% include 'inventory/_inventory_delete.html' with items=items %}
+                                </div>
                             </form>
                         </td>
                     </tr>
