@@ -1,7 +1,7 @@
 from django.urls import path
 
-from . import views
+from sales.views import SalesIndexView
 
 urlpatterns = [
-    path('', views.sales, name='sales'),
+    path('', SalesIndexView.as_view(), name='sales'),
 ]

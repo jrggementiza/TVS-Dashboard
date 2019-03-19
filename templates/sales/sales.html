@@ -1,42 +1,74 @@
 {% extends "base.html" %}
 
-
-{% comment %} TODO: Key Business Information Dashboard {% endcomment %}
 {% block content %}
-    <div class='container h-100'>
         <div class="row h-100">
-            <div class='col text-center'>
-                <table class="table table-hover">
-                    <thead class='fixed'>
-                        <tr>
-                            <th scope="col">Item No</th>
-                            <th scope="col">Item Name</th>
-                            <th scope="col">Item Get Price</th>
-                            <th scope="col">Item Sell Price</th>
-                            <th scope="col">Customer First Name</th>
-                            <th scope="col">Customer Last Name</th>
-                            <th scope="col">Customer Type</th>
-                        </tr>
-                    </thead>
-
-                    <tbody>
-                        {% for items in sold_items %}
-                        <tr>
-                            <td>{{ items.item.id }}</td>
-                            <td>{{ items.item.name }}</td>
-                            <td>{{ items.item.supplier }}</td>
-                            <td>{{ items.item.procurement_method }}</td>
-                            <td>{{ items.item.retail_price }}</td>
-                            <td>{{ items.item.customer.first_name }}</td>
-                            <td>{{ items.item.customer.last_name }}</td>
-                        </tr>
-                        {% endfor %}
-
-                    </tbody>
-                </table>
+            <div class='col'>
+                <canvas id="myChart"></canvas>
             </div>
-
+            <div class='col'>
+                <canvas id="myChart1"></canvas>
+            </div>
         </div>
-    </div>
+
+<script src="https://cdn.jsdelivr.net/npm/chart.js@2.8.0"></script>
+
+<script>
+var ctx = document.getElementById('myChart').getContext('2d');
+var myChart = new Chart(ctx, {
+    type: 'bar',
+    data: {
+        labels: {{ days }},
+        datasets: [{
+            label: 'Daily Sales for the Month',
+            data: {{ sales }} ,
+            backgroundColor: [
+                'rgba(255, 99, 132, 0.2)',
+            ],
+            borderColor: [
+                'rgba(255, 99, 132, 1)',
+            ],
+            borderWidth: 1
+        }]
+    },
+    options: {
+        scales: {
+            yAxes: [{
+                ticks: {
+                    beginAtZero: true
+                }
+            }]
+        }
+    }
+});
+
+
+var ctx = document.getElementById('myChart1').getContext('2d');
+var myChart = new Chart(ctx, {
+    type: 'line',
+    data: {
+        labels: {{ days }},
+        datasets: [{
+            label: 'Daily Sales for the Month',
+            data: {{ sales }} ,
+            backgroundColor: [
+                'rgba(255, 99, 132, 0.2)',
+            ],
+            borderColor: [
+                'rgba(255, 99, 132, 1)',
+            ],
+            borderWidth: 1
+        }]
+    },
+    options: {
+        scales: {
+            yAxes: [{
+                ticks: {
+                    beginAtZero: true
+                }
+            }]
+        }
+    }
+});
+</script>
 
 {% endblock content %}
