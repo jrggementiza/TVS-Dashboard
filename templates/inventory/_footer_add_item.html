@@ -12,7 +12,7 @@
                         </div>
                     </div>
                 {% endfor %}
-                <button type="submit" class="btn-primary btn" name="addItem">Add Item</button>
+                <button type="submit" formaction="{% url 'add' %}" class="btn-primary btn" name="addItem">Add Item</button>
             </form>
         </div>
     </div>
