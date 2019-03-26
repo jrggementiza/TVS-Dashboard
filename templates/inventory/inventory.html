@@ -17,24 +17,21 @@
                     </tr>
                 </thead>
                 <tbody>
-                    {% for items in inventory %}
+                    {% for inventory in inventory_list %}
                     <tr>
-                        <td>{{ items.item.id }}</td>
-                        <td>{{ items.item.procurement_date }}</td>
-                        <td>{{ items.item.name }}</td>
-                        <td>{{ items.item.supplier }}</td>
-                        <td>{{ items.item.procurement_method }}</td>
-                        <td>{{ items.item.cost }}</td>
-                        <td>{{ items.item.retail_price }}</td>
+                        <td>{{ inventory.item.id }}</td>
+                        <td>{{ inventory.item.procurement_date }}</td>
+                        <td>{{ inventory.item.name }}</td>
+                        <td>{{ inventory.item.supplier }}</td>
+                        <td>{{ inventory.item.procurement_method }}</td>
+                        <td>{{ inventory.item.cost }}</td>
+                        <td>{{ inventory.item.retail_price }}</td>
                         <td>
-                            <form method="post">
-                                {% csrf_token %}
-                                <div class='form-row'>
-                                    {% include 'inventory/_inventory_sell.html' with items=items %}
-                                    {% comment %} {% include 'inventory/_inventory_edit.html' with items=items %} {% endcomment %}
-                                    {% include 'inventory/_inventory_delete.html' with items=items %}
-                                </div>
-                            </form>
+                            <div class='row'>
+                                {% include 'inventory/_inventory_sell.html' with inventory=inventory %}
+                                {% comment %} {% include 'inventory/_inventory_edit.html' with inventory=inventory %} {% endcomment %}
+                                {% include 'inventory/_inventory_delete.html' with inventory=inventory %}
+                            </div>
                         </td>
                     </tr>
                     {% endfor %}

@@ -3,7 +3,7 @@ from django.shortcuts import render, redirect, get_object_or_404
 
 from django.urls import reverse
 
-from django.views.generic import View, TemplateView, FormView, CreateView, DeleteView
+from django.views.generic import View, TemplateView, FormView
 
 from inventory.models import Item, Inventory
 from inventory.forms import AddItemForm
@@ -60,51 +60,43 @@ def delete_item(request, item_id):
     selected_item.delete()
     return redirect('/inventory')
 
+# TODO: chain query selected_item and item_to_sell
+# TODO: Clean up sell_item view
+# TODO: Clean Up _inventory_sell modal
+def sell_item(request, item_id):
+    sell_item_form, new_customer_form = SellItemForm(), NewCustomerForm()
 
-# TODO: FBV with no Template
-# class InventorySellItem(View):
-#     def post(self, request):
-#         print(request)
-#         return HttpResponse('sell works!')
+    selected_item = get_object_or_404(Inventory, item=item_id)
+    item_to_sell = Item.objects.get(id=selected_item.item.id)
 
+    if request.method == 'POST':
+        new_customer_form = NewCustomerForm(request.POST)
+        sell_item_form = SellItemForm(request.POST)
 
-# DOING: Refactoring to CBV + FBV w/o Templates
-# def inventory(request):
-#     form = AddItemForm()
-#     sell_item_form, new_customer_form = SellItemForm(), NewCustomerForm()
-#     prompt = None
-#     if request.method == 'POST':
-#         if 'addItem' in request.POST:
-#             form = AddItemForm(request.POST)
-#             prompt = add_item(form)
-
-#         elif 'deleteItem' in request.POST:
-#             selected_item = request.POST.get('deleteItem', None)
-#             prompt = delete_item_from_inventory(selected_item)
-
-#         elif 'sellItem' in request.POST:
-#             selected_item = request.POST.get('sellItem', None)
-#             sell_item_form = SellItemForm(request.POST)
-#             new_customer_form = NewCustomerForm(request.POST)
+        if new_customer_form.is_valid() and sell_item_form.is_valid():
             
-#             prompt = sell_item(selected_item, sell_item_form, 
-#                                 new_customer_form)
+            # Creating a new Sale in Sales Table
+            new_sales = sell_item_form.save(commit=False)
+            new_sales.item = item_to_sell
+            new_sales.save()
 
-#         # elif 'editItem' in request.POST:
-#         #     selected_item = request.POST.get('editItem', None)
-#         #     prompt = edit_item(selected_item, form)
+            # Creating / Appending Item being purchased by Customer
+            customer = new_customer_form.save(commit=False)
+            try:
+                existing_customer = Customer.objects.get(first_name=customer.first_name, last_name=customer.last_name)
+                item_to_sell.customer = existing_customer
+                item_to_sell.save()
+            except Customer.DoesNotExist:
+                print('customer not found. creating new customer!')
+                customer.save()
+                item_to_sell.customer = customer
+                item_to_sell.save()
 
-#     #         if selected_item == None:
-#     #             prompt = 'item not found'
-            
-    
-#     inventory_list = Inventory.objects.all()
+            # Deleting Item from Inventory Table
+            selected_item.delete()
 
-#     context = {
-#             'inventory_list': inventory_list,
-#             'form': form,
-#             'sell_item_form': sell_item_form,
-#             'new_customer_form': new_customer_form,
-#             'prompt': prompt,
-#     }
-#     return render(request, 'inventory/inventory.html', context)
+            return redirect('/inventory')
+        else:
+            return HttpResponse('form not valid')
+    else:
+        return HttpResponse('not the right method')
