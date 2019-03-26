@@ -1,8 +1,8 @@
 <div class='col'>
-    <button type="button" class="btn btn-block btn-danger" name='deleteItem' value={{ items.item.id }} data-toggle="modal" data-target="#confirmDelete">Delete</button>
+    <button type="button" class="btn btn-block btn-danger" name='deleteItem' value={{ inventory.item.id }} data-toggle="modal" data-target="#confirmDelete-{{ inventory.item.name }}">Delete</button>
 </div>
 
-<div class="modal fade" id="confirmDelete" tabindex="-1" role="dialog" aria-labelledby="modalTitle" aria-hidden="true">
+<div class="modal fade" id="confirmDelete-{{ inventory.item.name }}" tabindex="-1" role="dialog" aria-labelledby="modalTitle" aria-hidden="true">
     <div class="modal-dialog" role="document">
         <div class="modal-content">
             <div class="modal-header">
@@ -12,13 +12,13 @@
                 </button>
             </div>
             <div class="modal-body">
-                <h2>Are you sure you want to delete {{ items.item.name }} from the Inventory?</h2>
+                <h2>Are you sure you want to delete {{ inventory.item.name }} from the INVENTORY</h2>
             </div>
             <div class="modal-footer">
                 <button type="button" class="btn btn-secondary" data-dismiss="modal">Cancel</button>
                 <form method='post'>
                     {% csrf_token %}
-                    <button type="submit" class="btn btn-danger" name='deleteItem' value={{ items.item.id }}>Delete Item</button>
+                    <button type="submit" formaction='delete/{{ inventory.item.id }}/' class="btn btn-danger" name='deleteItem' value={{ inventory.item.id }}>Delete Item</button>
                 </form>
             </div>
         </div>
