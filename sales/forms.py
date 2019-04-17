@@ -5,7 +5,7 @@ from sales.models import Sales
 from customer.models import Customer
 
 
-class NewCustomerForm(ModelForm):
+class CustomerForm(ModelForm):
     first_name = forms.CharField(widget=forms.TextInput(
         attrs={
             'class': 'form-control',
