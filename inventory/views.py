@@ -69,6 +69,7 @@ def sell_item(request, item_id):
         selected_item = get_object_or_404(Inventory, item=item_id)
         item_to_sell = Item.objects.get(id=selected_item.item.id)
 
+        # Load Forms
         customer_form = CustomerForm(request.POST)
         sell_item_form = SellItemForm(request.POST)
 
