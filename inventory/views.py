@@ -9,7 +9,7 @@ from inventory.models import Item, Inventory
 from inventory.forms import AddItemForm
 
 from sales.models import Sales
-from sales.forms import SellItemForm, NewCustomerForm
+from sales.forms import SellItemForm, CustomerForm
 
 from customer.models import Customer
 
@@ -24,7 +24,7 @@ class InventoryView(TemplateView):
         context = super(InventoryView, self).get_context_data(**kwargs)
         context['inventory_list'] = self.display_inventory_items()
         context['form'] = AddItemForm()
-        context['new_customer_form'] = NewCustomerForm()
+        context['customer_form'] = CustomerForm()
         context['sell_item_form'] = SellItemForm()
         return context
 
@@ -65,24 +65,22 @@ def delete_item(request, item_id):
 
 
 def sell_item(request, item_id):
-    sell_item_form, new_customer_form = SellItemForm(), NewCustomerForm()
-
-    selected_item = get_object_or_404(Inventory, item=item_id)
-    item_to_sell = Item.objects.get(id=selected_item.item.id)
-
     if request.method == 'POST':
-        new_customer_form = NewCustomerForm(request.POST)
+        selected_item = get_object_or_404(Inventory, item=item_id)
+        item_to_sell = Item.objects.get(id=selected_item.item.id)
+
+        customer_form = CustomerForm(request.POST)
         sell_item_form = SellItemForm(request.POST)
 
-        if new_customer_form.is_valid() and sell_item_form.is_valid():
+        if customer_form.is_valid() and sell_item_form.is_valid():
             
             # Creating a new Sale in Sales Table
             new_sales = sell_item_form.save(commit=False)
             new_sales.item = item_to_sell
             new_sales.save()
 
-            # Creating / Appending Item being purchased by Customer
-            customer = new_customer_form.save(commit=False)
+            # Checks New Customer / Existing Customer Purchasing the Item
+            customer = customer_form.save(commit=False)
             try:
                 existing_customer = Customer.objects.get(first_name=customer.first_name, last_name=customer.last_name)
                 item_to_sell.customer = existing_customer
@@ -93,6 +91,7 @@ def sell_item(request, item_id):
                 item_to_sell.customer = customer
                 item_to_sell.save()
 
+            # Delete Item in Inventory
             selected_item.delete()
 
             return redirect('/inventory')
