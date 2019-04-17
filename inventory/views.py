@@ -15,8 +15,8 @@ from customer.models import Customer
 
 
 class InventoryView(TemplateView):
-    """ View that displays all Items currently on Inventory and has ability to
-    add, sell, and delete items from Inventory.
+    """ View that displays all Items currently on Inventory 
+    and can add, sell, and delete items from Inventory.
     """
     template_name = 'inventory/inventory.html'
 
@@ -53,16 +53,12 @@ class InventoryAddItem(FormView):
         return super(InventoryAddItem, self).form_valid(form)
 
 
-# TODO: 404 template
-# TODO: Method is only post
 def delete_item(request, item_id):
     selected_item = get_object_or_404(Inventory, item=item_id)
     selected_item.delete()
     return redirect('/inventory')
 
-# TODO: chain query selected_item and item_to_sell
-# TODO: Clean up sell_item view
-# TODO: Clean Up _inventory_sell modal
+
 def sell_item(request, item_id):
     sell_item_form, new_customer_form = SellItemForm(), NewCustomerForm()
 
@@ -92,7 +88,6 @@ def sell_item(request, item_id):
                 item_to_sell.customer = customer
                 item_to_sell.save()
 
-            # Deleting Item from Inventory Table
             selected_item.delete()
 
             return redirect('/inventory')

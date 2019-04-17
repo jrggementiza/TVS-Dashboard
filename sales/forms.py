@@ -18,14 +18,7 @@ class NewCustomerForm(ModelForm):
             'placeholder': 'ex. Stevenson',
         }
     ))
-    # customer_type = forms.ChoiceField(
-    #     choices=Customer.CUSTOMER_TYPE_OPTIONS,
-    #     widget=forms.RadioSelect(
-    #         attrs={
-    #             'class': 'form-check-input',
-    #         },
-    #     )
-    # )
+
     class Meta:
         model = Customer
         fields = [
@@ -34,23 +27,6 @@ class NewCustomerForm(ModelForm):
 
 
 class SellItemForm(ModelForm):
-    # listing = forms.ChoiceField(
-    #     choices=Sales.LISTING_OPTIONS,
-    #     widget=forms.RadioSelect(
-    #         attrs={
-    #             'class': 'form-check-input',
-    #             'type': 'radio'
-    #         }
-    #     )
-    # )
-    # payment_method = forms.ChoiceField(
-    #     choices=Sales.PAYMENT_METHOD_OPTIONS,
-    #     widget=forms.RadioSelect(
-    #         attrs={
-    #             'class': 'form-check-input',
-    #         }
-    #     )
-    # )
     class Meta:
         model = Sales
         fields = [

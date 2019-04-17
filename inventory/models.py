@@ -8,10 +8,9 @@ class Supplier(models.Model):
 
 
 class Item(models.Model):
-    id = models.AutoField(primary_key=True) # not needed because auto generate
+    id = models.AutoField(primary_key=True)
     name = models.CharField(max_length=30)
 
-    # item_from = models.CharField(max_length=30) # item_from -> supplier
     KOREA = 'KOR'
     SINGAPORE = 'SGP'
     TAIWAN = 'TWN'
@@ -25,12 +24,10 @@ class Item(models.Model):
         choices=SUPPLIER_CHOICES,
     )
 
-    cost = models.DecimalField(max_digits=8, decimal_places=2) # renamed item_get_price -> to cost
-    retail_price = models.DecimalField(max_digits=8, decimal_places=2)  # renamed item_sell_price -> retail_price
-
-    # item_get_date = models.DateField(auto_now=True) # moved from inventory -> Item
-    procurement_date = models.DateField(auto_now=True) # renamed from item_get_date -> procurement_date
-
+    cost = models.DecimalField(max_digits=8, decimal_places=2)
+    retail_price = models.DecimalField(max_digits=8, decimal_places=2)
+    procurement_date = models.DateField(auto_now=True)
+    
     PRE_ORDER = 'PO'
     SELF_ORDER = 'SO'
     LOCAL_ACQUISITION = 'LA'
@@ -43,13 +40,6 @@ class Item(models.Model):
         max_length=2,
         choices=PROCUREMENT_METHOD_CHOICES,
     )
-
-    #TODO: Date Sold upon selling of item
-    # sell_date = models.DateField(auto_now=True)
-
-    # stock_keeping_unit = default is one.
-    # view add item default is 1.
-    # view sell item default is 1. if greater than 1, sku - 1. if sku == 1, sku delete
     
     customer = models.ForeignKey(Customer, on_delete=models.CASCADE, null=True)
 

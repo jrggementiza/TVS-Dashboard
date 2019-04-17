@@ -14,8 +14,10 @@ class SalesIndexView(TemplateView):
         context['sales'] = self.daily_sales(context['days'])
         return context
 
-    def number_of_days_in_month(self): #TODO: add current month as param
-        _, days_in_month = calendar.monthrange(2019, 3)
+    def number_of_days_in_month(self):
+        current_year = 2019
+        current_month = 3
+        _, days_in_month = calendar.monthrange(current_year, current_month)
         return [day for day in range(1, days_in_month + 1)]
 
     def daily_sales(self, number_of_days_in_month):
