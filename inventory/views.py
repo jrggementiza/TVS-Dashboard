@@ -54,9 +54,12 @@ class InventoryAddItem(FormView):
 
 
 def delete_item(request, item_id):
-    selected_item = get_object_or_404(Inventory, item=item_id)
-    selected_item.delete()
-    return redirect('/inventory')
+    if request.method == 'POST':
+        selected_item = get_object_or_404(Item, id=item_id)
+        selected_item_in_inventory = get_object_or_404(Inventory, item=selected_item)
+        selected_item_in_inventory.delete()
+        selected_item.delete()
+        return redirect('/inventory')
 
 
 def sell_item(request, item_id):
