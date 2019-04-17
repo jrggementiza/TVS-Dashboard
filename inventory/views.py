@@ -60,6 +60,8 @@ def delete_item(request, item_id):
         selected_item_in_inventory.delete()
         selected_item.delete()
         return redirect('/inventory')
+    else:
+        return HttpResponse('not the right method')
 
 
 def sell_item(request, item_id):
