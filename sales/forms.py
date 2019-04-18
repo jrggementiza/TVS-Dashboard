@@ -18,7 +18,10 @@ class CustomerForm(ModelForm):
             'placeholder': 'ex. Stevenson',
         }
     ))
-
+    customer_type = forms.ChoiceField(
+        choices=Customer.CUSTOMER_TYPE_OPTIONS,
+        widget=forms.RadioSelect()
+    )
     class Meta:
         model = Customer
         fields = [
@@ -27,6 +30,14 @@ class CustomerForm(ModelForm):
 
 
 class SellItemForm(ModelForm):
+    listing = forms.ChoiceField(
+        choices=Sales.LISTING_OPTIONS,
+        widget=forms.RadioSelect()
+        )
+    payment_method = forms.ChoiceField(
+        choices=Sales.PAYMENT_METHOD_OPTIONS,
+        widget=forms.RadioSelect()
+        )
     class Meta:
         model = Sales
         fields = [

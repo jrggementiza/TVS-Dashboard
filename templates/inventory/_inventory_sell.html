@@ -6,6 +6,7 @@
     <div class="modal-dialog" role="document">
 
         <div class="modal-content">
+
             <div class="modal-header">
                 <h5 class="modal-title" id="modalTitle">Sell Item</h5>
                 <button type="button" class="close" data-dismiss="modal" aria-label="Close">
@@ -14,34 +15,39 @@
             </div>
 
             <div class="modal-body">
+            
                 <form method='post' class='form'>
                     {% csrf_token %}
-                    {% for field in new_customer_form %}
-                    <div class='form-row'>
-                        <div class='col'>
-                            {{ field.errors }}
-                            {{ field.label }}
-                            {{ field }}
-                        </div>
+                
+                    <div class="form-group">
+                        {{ customer_form.first_name.errors }}
+                        {{ customer_form.first_name.label }}
+                        {{ customer_form.first_name }}
                     </div>
-                    {% endfor %}
-
-                    <hr>
-
-                    <div class='form-row'>
+                    
+                    <div class="form-group">
+                        {{ customer_form.last_name.errors }}
+                        {{ customer_form.last_name.label }}
+                        {{ customer_form.last_name }}
+                    </div>
+                
+                    <div class="form-check">
+                        {{ customer_form.customer_type.errors }}
+                        {{ customer_form.customer_type.label }}
+                        {{ customer_form.customer_type }}
+                    </div>                    
+                
                     
                     {% for field in sell_item_form %}
-                    <div class='form-group'>
                         <div class='form-check'>
                             {{ field.errors }}
                             {{ field.label }}
                             {{ field }}
                         </div>
-                    </div>
                     {% endfor %}
-                    </div>
 
                     <hr>
+
                     <div class='form-row'>
                         <div class='col'>
                             <button type="button" class="btn btn-block btn-secondary" data-dismiss="modal">Cancel</button>
@@ -49,8 +55,9 @@
                         <div class='col'>
                             <button type="submit" formaction='sell/{{ inventory.item.id }}/' class="btn btn-block btn-success" name='sellItem' value={{ inventory.item.id }}>Confirm</button>
                         </div>
-                    </div>
+                    </div>        
                 </form>
+
             </div>
 
         </div>
