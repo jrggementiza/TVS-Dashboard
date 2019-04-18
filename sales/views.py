@@ -6,9 +6,6 @@ from django.views.generic import TemplateView
 
 from sales.models import Sales
 
-# TODO: Trace Sales View Function
-# TODO: Dynamically get datetime.now()
-# TODO: add current_year, current_month for number_of_days_in_month
 
 class SalesIndexView(TemplateView):
     template_name = 'sales/sales.html'
